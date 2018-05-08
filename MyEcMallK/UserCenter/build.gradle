@@ -3,10 +3,13 @@ if (isUserModule.toBoolean()) {
 } else {
     apply plugin: 'com.android.application'
 }
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    generateStubs = true
+}
 
 android {
     compileSdkVersion 27
