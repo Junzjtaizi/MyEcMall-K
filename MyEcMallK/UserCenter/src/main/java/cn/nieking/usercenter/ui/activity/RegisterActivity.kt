@@ -28,7 +28,7 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
     }
 
     private fun initInjection() {
-
+        
         mPresenter.mView = this
     }
 }
