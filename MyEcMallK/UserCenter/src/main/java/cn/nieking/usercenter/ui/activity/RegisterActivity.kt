@@ -1,6 +1,7 @@
 package cn.nieking.usercenter.ui.activity
 
 import android.os.Bundle
+import cn.nieking.baselibrary.common.AppManager
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.usercenter.R
@@ -12,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.toast
 
 class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
+
+    private var pressTime: Long = 0
 
     override fun injectComponent() {
         DaggerUserComponent.builder()
@@ -35,6 +38,16 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
                     mMobileEt.text.toString(),
                     mVerifyCodeEt.text.toString(),
                     mPwdEt.text.toString())
+        }
+    }
+
+    override fun onBackPressed() {
+        val time = System.currentTimeMillis()
+        if (time - pressTime >= 2000) {
+            toast("再按一次退出")
+            pressTime = time
+        } else {
+            AppManager.instance.exitApp(this)
         }
     }
 }
