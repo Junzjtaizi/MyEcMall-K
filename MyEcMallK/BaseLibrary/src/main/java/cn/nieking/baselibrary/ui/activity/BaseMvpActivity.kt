@@ -8,33 +8,25 @@ import cn.nieking.baselibrary.injection.module.ActivityModule
 import cn.nieking.baselibrary.injection.module.LifecycleProviderModule
 import cn.nieking.baselibrary.presenter.BasePresenter
 import cn.nieking.baselibrary.presenter.view.BaseView
+import cn.nieking.baselibrary.widgets.ProgressLoading
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), BaseView {
-    override fun showLoading() {
-
-    }
-
-    override fun hideLoading() {
-
-    }
-
-    override fun onError() {
-
-    }
 
     @Inject
     lateinit var mPresenter: T
     lateinit var activityComponent: ActivityComponent
+
+    lateinit var mLoadingDialog: ProgressLoading
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initActivityInjection()
         injectComponent()
+        mLoadingDialog = ProgressLoading.create(this)
     }
-
-    abstract fun injectComponent()
 
     private fun initActivityInjection() {
         activityComponent = DaggerActivityComponent.builder()
@@ -43,4 +35,18 @@ abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), BaseView 
                 .lifecycleProviderModule(LifecycleProviderModule(this))
                 .build()
     }
+
+    override fun showLoading() {
+        mLoadingDialog.showLoading()
+    }
+
+    override fun hideLoading() {
+        mLoadingDialog.hideLoading()
+    }
+
+    override fun onError(text: String) {
+        toast(text)
+    }
+
+    abstract fun injectComponent()
 }

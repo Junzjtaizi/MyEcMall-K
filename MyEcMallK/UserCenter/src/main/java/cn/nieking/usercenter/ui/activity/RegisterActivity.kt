@@ -9,6 +9,7 @@ import cn.nieking.usercenter.injection.component.DaggerUserComponent
 import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.RegisterPresenter
 import cn.nieking.usercenter.presenter.view.RegisterView
+import com.kotlin.base.widgets.VerifyButton
 import kotlinx.android.synthetic.main.activity_register.*
 import org.jetbrains.anko.toast
 
@@ -38,6 +39,10 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
                     mMobileEt.text.toString(),
                     mVerifyCodeEt.text.toString(),
                     mPwdEt.text.toString())
+        }
+
+        mGetVerifyCodeBtn.onClick {
+            mGetVerifyCodeBtn.requestSendVerifyNumber()
         }
     }
 

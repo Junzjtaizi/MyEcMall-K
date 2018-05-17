@@ -8,6 +8,7 @@ import cn.nieking.baselibrary.injection.module.ActivityModule
 import cn.nieking.baselibrary.injection.module.LifecycleProviderModule
 import cn.nieking.baselibrary.presenter.BasePresenter
 import cn.nieking.baselibrary.presenter.view.BaseView
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 abstract class BaseMvpFragment<T : BasePresenter<*>> : BaseFragment(), BaseView {
@@ -19,8 +20,8 @@ abstract class BaseMvpFragment<T : BasePresenter<*>> : BaseFragment(), BaseView 
 
     }
 
-    override fun onError() {
-
+    override fun onError(text: String) {
+        toast(text)
     }
 
     @Inject
