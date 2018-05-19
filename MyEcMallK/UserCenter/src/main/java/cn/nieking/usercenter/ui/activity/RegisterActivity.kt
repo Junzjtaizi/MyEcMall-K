@@ -1,7 +1,9 @@
 package cn.nieking.usercenter.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import cn.nieking.baselibrary.common.AppManager
+import cn.nieking.baselibrary.ext.enable
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.usercenter.R
@@ -11,11 +13,10 @@ import cn.nieking.usercenter.presenter.RegisterPresenter
 import cn.nieking.usercenter.presenter.view.RegisterView
 import com.kotlin.base.widgets.VerifyButton
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.view.*
 import org.jetbrains.anko.toast
 
-class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
-
-    private var pressTime: Long = 0
+class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView, View.OnClickListener {
 
     override fun injectComponent() {
         DaggerUserComponent.builder()
@@ -34,25 +35,43 @@ class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        mRegisterBtn.onClick {
-            mPresenter.register(
-                    mMobileEt.text.toString(),
-                    mVerifyCodeEt.text.toString(),
-                    mPwdEt.text.toString())
-        }
+        initView()
+    }
 
-        mGetVerifyCodeBtn.onClick {
-            mGetVerifyCodeBtn.requestSendVerifyNumber()
+    /**
+     * 初始化视图
+     */
+    private fun initView() {
+        mRegisterBtn.enable(mMobileEt, { isBtnEnable() })
+        mRegisterBtn.enable(mVerifyCodeEt, { isBtnEnable() })
+        mRegisterBtn.enable(mPwdEt, { isBtnEnable() })
+        mRegisterBtn.enable(mPwdConfirmEt, { isBtnEnable() })
+        mVerifyCodeBtn.onClick(this)
+        mRegisterBtn.onClick(this)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.mVerifyCodeBtn -> {
+                mVerifyCodeBtn.requestSendVerifyNumber()
+                toast("发送验证码成功")
+            }
+            R.id.mRegisterBtn -> {
+                mPresenter.register(
+                        mMobileEt.text.toString(),
+                        mPwdEt.text.toString(),
+                        mVerifyCodeEt.text.toString())
+            }
         }
     }
 
-    override fun onBackPressed() {
-        val time = System.currentTimeMillis()
-        if (time - pressTime >= 2000) {
-            toast("再按一次退出")
-            pressTime = time
-        } else {
-            AppManager.instance.exitApp(this)
-        }
+    /**
+     * 判断注册按钮是否可点击
+     */
+    private fun isBtnEnable(): Boolean {
+        return mMobileEt.text.isNullOrEmpty().not() &&
+                mVerifyCodeEt.text.isNullOrEmpty().not() &&
+                mPwdEt.text.isNullOrEmpty().not() &&
+                mPwdConfirmEt.text.isNullOrEmpty().not()
     }
 }
