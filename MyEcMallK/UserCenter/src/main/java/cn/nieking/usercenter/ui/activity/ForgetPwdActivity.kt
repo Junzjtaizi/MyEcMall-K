@@ -6,16 +6,15 @@ import cn.nieking.baselibrary.ext.enable
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.usercenter.R
-import cn.nieking.usercenter.data.protocol.UserInfo
 import cn.nieking.usercenter.injection.component.DaggerUserComponent
 import cn.nieking.usercenter.injection.module.UserModule
-import cn.nieking.usercenter.presenter.LoginPresenter
-import cn.nieking.usercenter.presenter.view.LoginView
-import kotlinx.android.synthetic.main.activity_login.*
+import cn.nieking.usercenter.presenter.ForgetPwdPresenter
+import cn.nieking.usercenter.presenter.view.ForgetPwdView
+import kotlinx.android.synthetic.main.activity_forget_pwd.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
-class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClickListener {
+class ForgetPwdActivity : BaseMvpActivity<ForgetPwdPresenter>(), ForgetPwdView, View.OnClickListener {
 
     override fun injectComponent() {
         DaggerUserComponent.builder()
@@ -28,7 +27,7 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClick
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_forget_pwd)
 
         initView()
     }
@@ -37,26 +36,22 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClick
      * 初始化视图
      */
     private fun initView() {
-        mLoginBtn.enable(mMobileEt, { isBtnEnable() })
-        mLoginBtn.enable(mPwdEt, { isBtnEnable() })
-        mLoginBtn.onClick(this)
-        mForgetPwdTv.onClick(this)
-        mHeaderBar.getRightView().onClick(this)
+        mNextBtn.enable(mMobileEt, { isBtnEnable() })
+        mNextBtn.enable(mVerifyCodeEt, { isBtnEnable() })
+        mVerifyCodeBtn.onClick(this)
+        mNextBtn.onClick(this)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.mLoginBtn -> {
-                mPresenter.login(
+            R.id.mVerifyCodeBtn -> {
+                mVerifyCodeBtn.requestSendVerifyNumber()
+                toast("发送验证码成功")
+            }
+            R.id.mNextBtn -> {
+                mPresenter.forgetPwd(
                         mMobileEt.text.toString(),
-                        mPwdEt.text.toString(),
-                        "")
-            }
-            R.id.mRightTv -> {
-                startActivity<RegisterActivity>()
-            }
-            R.id.mForgetPwdTv -> {
-                startActivity<ForgetPwdActivity>()
+                        mVerifyCodeEt.text.toString())
             }
         }
     }
@@ -66,11 +61,11 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClick
      */
     private fun isBtnEnable(): Boolean {
         return mMobileEt.text.isNullOrEmpty().not() &&
-                mPwdEt.text.isNullOrEmpty().not()
+                mVerifyCodeEt.text.isNullOrEmpty().not()
     }
 
-    override fun onLoginResult(result: UserInfo) {
-        toast("登录成功")
-        startActivity<UserInfoActivity>()
+    override fun onForgetPwdResult(result: String) {
+        toast(result)
+        startActivity<ResetPwdActivity>("mobile" to mMobileEt.text.toString())
     }
 }

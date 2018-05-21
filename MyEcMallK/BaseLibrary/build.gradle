@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+
     api fileTree(include: ['*.jar'], dir: 'libs')
 
     api "com.android.support:appcompat-v7:$android_sdk_version"
@@ -59,6 +60,15 @@ dependencies {
 
     // Glide
     api "com.github.bumptech.glide:glide:$glide_version"
+
+    // Circle View
+    api "de.hdodenhof:circleimageview:$circle_imageView_version"
+
+    // Take photo
+    api "com.jph.takephoto:takephoto_library:$take_photo_version"
+
+    // Alert View
+    api "com.bigkoo:alertview:$alert_view_versoin"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
