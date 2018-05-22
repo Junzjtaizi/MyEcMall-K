@@ -9,6 +9,10 @@ import android.util.Log
 import cn.nieking.baselibrary.common.BaseConstant
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
+import cn.nieking.baselibrary.utils.AppPrefsUtils
+import cn.nieking.baselibrary.utils.DateUtils
+import cn.nieking.baselibrary.utils.GlideUtils
+import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.usercenter.R
 import cn.nieking.usercenter.injection.component.DaggerUserComponent
 import cn.nieking.usercenter.injection.module.UserModule
@@ -20,10 +24,6 @@ import com.jph.takephoto.app.TakePhoto
 import com.jph.takephoto.app.TakePhotoImpl
 import com.jph.takephoto.compress.CompressConfig
 import com.jph.takephoto.model.TResult
-import cn.nieking.baselibrary.utils.AppPrefsUtils
-import cn.nieking.baselibrary.utils.DateUtils
-import cn.nieking.baselibrary.utils.GlideUtils
-import cn.nieking.provider.common.ProviderConstant
 import com.qiniu.android.storage.UploadManager
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_user_info.*

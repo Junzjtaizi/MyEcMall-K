@@ -46,8 +46,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     // Dagger2
     api "com.google.dagger:dagger:$dagger_version"

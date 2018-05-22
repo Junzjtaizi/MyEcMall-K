@@ -35,6 +35,7 @@ dependencies {
     api "com.android.support:appcompat-v7:$android_sdk_version"
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "com.android.support:recyclerview-v7:$android_sdk_version"
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
 
     // Anko Commons
     api "org.jetbrains.anko:anko-commons:$anko_version"

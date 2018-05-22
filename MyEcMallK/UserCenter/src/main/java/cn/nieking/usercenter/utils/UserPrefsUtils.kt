@@ -1,13 +1,10 @@
 package cn.nieking.usercenter.utils
 
 import cn.nieking.baselibrary.common.BaseConstant
-import cn.nieking.usercenter.data.protocol.UserInfo
 import cn.nieking.baselibrary.utils.AppPrefsUtils
 import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.usercenter.data.protocol.UserInfo
 
-/*
-    本地存储用户相关信息
- */
 object UserPrefsUtils {
 
     /*
