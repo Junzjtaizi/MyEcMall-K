@@ -29,7 +29,7 @@
 
             <View style="@style/DividerFixedWidth.MarginTopBottom"/>
 
-            <com.kotlin.base.widgets.VerifyButton
+            <cn.nieking.baselibrary.widgets.VerifyButton
                 android:id="@+id/mVerifyCodeBtn"
                 style="@style/WrapMatch"
                 android:background="@null"

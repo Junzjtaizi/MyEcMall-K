@@ -7,9 +7,8 @@ import cn.nieking.baselibrary.data.protocol.BaseResp
 import cn.nieking.baselibrary.rx.BaseFunc
 import cn.nieking.baselibrary.rx.BaseFuncBoolean
 import cn.nieking.baselibrary.rx.BaseSubscriber
-import com.kotlin.base.widgets.DefaultTextWatcher
+import cn.nieking.baselibrary.widgets.DefaultTextWatcher
 import com.trello.rxlifecycle.LifecycleProvider
-import com.trello.rxlifecycle.kotlin.bindToLifecycle
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

@@ -2,7 +2,6 @@ package cn.nieking.usercenter.ui.activity
 
 import android.os.Bundle
 import android.view.View
-import cn.nieking.baselibrary.common.AppManager
 import cn.nieking.baselibrary.ext.enable
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
@@ -11,9 +10,7 @@ import cn.nieking.usercenter.injection.component.DaggerUserComponent
 import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.RegisterPresenter
 import cn.nieking.usercenter.presenter.view.RegisterView
-import com.kotlin.base.widgets.VerifyButton
 import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.activity_register.view.*
 import org.jetbrains.anko.toast
 
 class RegisterActivity : BaseMvpActivity<RegisterPresenter>(), RegisterView, View.OnClickListener {

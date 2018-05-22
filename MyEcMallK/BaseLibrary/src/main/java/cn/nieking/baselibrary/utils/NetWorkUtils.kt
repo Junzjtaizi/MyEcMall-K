@@ -1,4 +1,4 @@
-package com.kotlin.base.utils
+package cn.nieking.baselibrary.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

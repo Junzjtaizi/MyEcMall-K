@@ -2,12 +2,14 @@ package cn.nieking.usercenter.injection.component
 
 import cn.nieking.baselibrary.injection.PerComponentScope
 import cn.nieking.baselibrary.injection.component.ActivityComponent
+import cn.nieking.usercenter.injection.module.UploadModule
 import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.ui.activity.*
 import dagger.Component
 
 @PerComponentScope
-@Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(UserModule::class))
+@Component(dependencies = arrayOf(ActivityComponent::class),
+        modules = arrayOf(UserModule::class, UploadModule::class))
 interface UserComponent {
 
     fun inject(activity: RegisterActivity)

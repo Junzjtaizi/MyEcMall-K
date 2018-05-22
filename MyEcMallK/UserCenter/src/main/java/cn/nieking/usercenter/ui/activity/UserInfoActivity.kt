@@ -1,9 +1,12 @@
 package cn.nieking.usercenter.ui.activity
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
+import cn.nieking.baselibrary.common.BaseConstant
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.usercenter.R
@@ -17,7 +20,12 @@ import com.jph.takephoto.app.TakePhoto
 import com.jph.takephoto.app.TakePhotoImpl
 import com.jph.takephoto.compress.CompressConfig
 import com.jph.takephoto.model.TResult
-import com.kotlin.base.utils.DateUtils
+import cn.nieking.baselibrary.utils.AppPrefsUtils
+import cn.nieking.baselibrary.utils.DateUtils
+import cn.nieking.baselibrary.utils.GlideUtils
+import cn.nieking.provider.common.ProviderConstant
+import com.qiniu.android.storage.UploadManager
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_user_info.*
 import org.jetbrains.anko.toast
 import java.io.File
@@ -26,6 +34,15 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
 
     private lateinit var mTakePhoto: TakePhoto
     private lateinit var mTempFile: File
+    private lateinit var mRxPermission: RxPermissions
+    private var mLocalFile: String? = null
+    private var mRemoteFile: String? = null
+    private var mUserIcon: String? = null
+    private var mUserName: String? = null
+    private var mUserMobile: String? = null
+    private var mUserGender: String? = null
+    private var mUserSign: String? = null
+    private val mUploadManager: UploadManager by lazy { UploadManager() }
 
     override fun injectComponent() {
         DaggerUserComponent.builder()
@@ -41,8 +58,29 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
         setContentView(R.layout.activity_user_info)
 
         mTakePhoto = TakePhotoImpl(this, this)
-        initView()
         mTakePhoto.onCreate(savedInstanceState)
+        mRxPermission = RxPermissions(this)
+        initView()
+        initData()
+    }
+
+    private fun initData() {
+        mUserIcon = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_ICON)
+        mUserName = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_NAME)
+        mUserMobile = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_MOBILE)
+        mUserGender = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_GENDER)
+        mUserSign = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_SIGN)
+        if (mUserIcon != "") {
+            GlideUtils.loadUrlImage(this, mUserIcon!!, mUserIconIv)
+        }
+        mUserNameEt.setText(mUserName)
+        mUserMobileTv.text = mUserMobile
+        if (mUserGender == "0") {
+            mGenderMaleRb.isChecked = true
+        } else {
+            mGenderFemaleRb.isChecked = true
+        }
+        mUserSignEt.setText(mUserSign)
     }
 
     /**
@@ -62,12 +100,22 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
                 arrayOf("拍照", "相册"),
                 this,
                 AlertView.Style.ActionSheet,
-                OnItemClickListener { o, position ->
+                OnItemClickListener { _, position ->
                     mTakePhoto.onEnableCompress(CompressConfig.ofDefaultConfig(), false)
                     when (position) {
                         0 -> {
-                            createTempFile()
-                            mTakePhoto.onPickFromCapture(Uri.fromFile(mTempFile))
+                            mRxPermission.request(
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA)
+                                    .subscribe { granted ->
+                                        if (granted) {
+                                            createTempFile()
+                                            mTakePhoto.onPickFromCapture(Uri.fromFile(mTempFile))
+                                        } else {
+                                            toast("未授权")
+                                        }
+                                    }
                         }
                         1 -> mTakePhoto.onPickFromGallery()
                     }
@@ -75,8 +123,10 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     }
 
     override fun takeSuccess(result: TResult?) {
-        toast(result?.image?.originalPath.toString())
-        toast(result?.image?.compressPath.toString())
+        Log.d("TakePhoto", result?.image?.originalPath)
+        Log.d("TakePhoto", result?.image?.compressPath)
+        mLocalFile = result?.image?.compressPath
+        mPresenter.getUploadToken()
     }
 
     override fun takeCancel() {
@@ -84,7 +134,7 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     }
 
     override fun takeFail(result: TResult?, msg: String?) {
-        toast("""takePhoto$msg""")
+        Log.e("TakePhoto", msg)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -99,5 +149,13 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
             return
         }
         this.mTempFile = File(filesDir, tempFileName)
+    }
+
+    override fun onGetUploadTokenResult(result: String) {
+        mUploadManager.put(mLocalFile, null, result, { _, _, response ->
+            mRemoteFile = BaseConstant.IMAGE_SERVER_ADDRESS + response.get("hash")
+            Log.i("TakePhoto", mRemoteFile)
+            GlideUtils.loadUrlImage(this@UserInfoActivity, mRemoteFile!!, mUserIconIv)
+        }, null)
     }
 }

@@ -2,7 +2,7 @@ package cn.nieking.baselibrary.presenter
 
 import android.content.Context
 import cn.nieking.baselibrary.presenter.view.BaseView
-import com.kotlin.base.utils.NetWorkUtils
+import cn.nieking.baselibrary.utils.NetWorkUtils
 import com.trello.rxlifecycle.LifecycleProvider
 import javax.inject.Inject
 

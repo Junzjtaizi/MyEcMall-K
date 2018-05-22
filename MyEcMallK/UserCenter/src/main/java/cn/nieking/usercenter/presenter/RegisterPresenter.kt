@@ -5,7 +5,6 @@ import cn.nieking.baselibrary.presenter.BasePresenter
 import cn.nieking.baselibrary.rx.BaseSubscriber
 import cn.nieking.usercenter.presenter.view.RegisterView
 import cn.nieking.usercenter.service.UserService
-import com.kotlin.base.utils.NetWorkUtils
 import javax.inject.Inject
 
 class RegisterPresenter @Inject constructor() : BasePresenter<RegisterView>() {
