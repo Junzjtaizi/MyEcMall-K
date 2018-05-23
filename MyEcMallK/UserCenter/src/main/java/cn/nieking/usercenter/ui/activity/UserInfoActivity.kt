@@ -14,10 +14,12 @@ import cn.nieking.baselibrary.utils.DateUtils
 import cn.nieking.baselibrary.utils.GlideUtils
 import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.usercenter.R
+import cn.nieking.usercenter.data.protocol.UserInfo
 import cn.nieking.usercenter.injection.component.DaggerUserComponent
 import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.UserInfoPresenter
 import cn.nieking.usercenter.presenter.view.UserInfoView
+import cn.nieking.usercenter.utils.UserPrefsUtils
 import com.bigkoo.alertview.AlertView
 import com.bigkoo.alertview.OnItemClickListener
 import com.jph.takephoto.app.TakePhoto
@@ -35,8 +37,8 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     private lateinit var mTakePhoto: TakePhoto
     private lateinit var mTempFile: File
     private lateinit var mRxPermission: RxPermissions
-    private var mLocalFile: String? = null
-    private var mRemoteFile: String? = null
+    private var mLocalFileUrl: String? = null
+    private var mRemoteFileUrl: String? = null
     private var mUserIcon: String? = null
     private var mUserName: String? = null
     private var mUserMobile: String? = null
@@ -70,6 +72,7 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
         mUserMobile = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_MOBILE)
         mUserGender = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_GENDER)
         mUserSign = AppPrefsUtils.getString(ProviderConstant.KEY_SP_USER_SIGN)
+        mRemoteFileUrl = mUserIcon
         if (mUserIcon != "") {
             GlideUtils.loadUrlImage(this, mUserIcon!!, mUserIconIv)
         }
@@ -89,6 +92,14 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     private fun initView() {
         mUserIconView.onClick {
             showAlertView()
+        }
+
+        mHeaderBar.getRightView().onClick {
+            mPresenter.editUser(
+                    mRemoteFileUrl!!,
+                    mUserNameEt.text?.toString() ?: "",
+                    if (mGenderMaleRb.isChecked) "0" else "1",
+                    mUserSignEt.text?.toString() ?: "")
         }
     }
 
@@ -125,7 +136,7 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     override fun takeSuccess(result: TResult?) {
         Log.d("TakePhoto", result?.image?.originalPath)
         Log.d("TakePhoto", result?.image?.compressPath)
-        mLocalFile = result?.image?.compressPath
+        mLocalFileUrl = result?.image?.compressPath
         mPresenter.getUploadToken()
     }
 
@@ -152,10 +163,15 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
     }
 
     override fun onGetUploadTokenResult(result: String) {
-        mUploadManager.put(mLocalFile, null, result, { _, _, response ->
-            mRemoteFile = BaseConstant.IMAGE_SERVER_ADDRESS + response.get("hash")
-            Log.i("TakePhoto", mRemoteFile)
-            GlideUtils.loadUrlImage(this@UserInfoActivity, mRemoteFile!!, mUserIconIv)
+        mUploadManager.put(mLocalFileUrl, null, result, { _, _, response ->
+            mRemoteFileUrl = BaseConstant.IMAGE_SERVER_ADDRESS + response.get("hash")
+            Log.i("TakePhoto", mRemoteFileUrl)
+            GlideUtils.loadUrlImage(this@UserInfoActivity, mRemoteFileUrl!!, mUserIconIv)
         }, null)
+    }
+
+    override fun onEditUserResult(result: UserInfo) {
+        toast("修改成功")
+        UserPrefsUtils.putUserInfo(result)
     }
 }
