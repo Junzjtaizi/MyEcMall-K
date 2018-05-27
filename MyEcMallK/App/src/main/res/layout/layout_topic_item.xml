@@ -9,7 +9,7 @@
 
     <LinearLayout style="@style/MatchWrap.Vertical">
 
-        <com.kotlin.base.widgets.RoundRectImageView
+        <cn.nieking.baselibrary.widgets.RoundRectImageView
             android:id="@+id/mTopicIv"
             android:layout_width="200.0dip"
             android:layout_height="120.0dip"
@@ -17,14 +17,14 @@
 
         <TextView
             style="@style/WrapWrap"
-            android:layout_marginLeft="@dimen/common_margin_small"
+            android:layout_marginStart="@dimen/common_margin_small"
             android:layout_marginTop="@dimen/common_margin_small"
             android:text="爱生活"
             android:textColor="@color/text_light_dark"/>
 
         <TextView
             style="@style/WrapWrap"
-            android:layout_marginLeft="@dimen/common_margin_small"
+            android:layout_marginStart="@dimen/common_margin_small"
             android:text="有品有范有时尚"
             android:textColor="@color/text_dark"
             android:textSize="@dimen/text_small_size"/>

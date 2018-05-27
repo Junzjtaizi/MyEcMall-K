@@ -3,10 +3,12 @@ package cn.nieking.baselibrary.ext
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import cn.nieking.baselibrary.data.protocol.BaseResp
 import cn.nieking.baselibrary.rx.BaseFunc
 import cn.nieking.baselibrary.rx.BaseFuncBoolean
 import cn.nieking.baselibrary.rx.BaseSubscriber
+import cn.nieking.baselibrary.utils.GlideUtils
 import cn.nieking.baselibrary.widgets.DefaultTextWatcher
 import com.trello.rxlifecycle.LifecycleProvider
 import rx.Observable
@@ -43,4 +45,8 @@ fun Button.enable(et: EditText, method: () -> Boolean) {
             btn.isEnabled = method()
         }
     })
+}
+
+fun ImageView.loadUrl(url: String) {
+    GlideUtils.loadUrlImage(context, url, this)
 }

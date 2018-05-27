@@ -84,6 +84,12 @@ dependencies {
     // Banner
     api 'com.youth.banner:banner:1.4.10'
 
+    // TriangleLabelView
+    api 'com.github.shts:TriangleLabelView:1.1.2'
+
+    // PagerContainer
+    api 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

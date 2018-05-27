@@ -15,17 +15,17 @@
             android:layout_height="71dp"
             android:scaleType="fitXY"/>
 
-        <!--<jp.shts.android.library.TriangleLabelView-->
-            <!--style="@style/WrapWrap"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--app:backgroundColor="@color/common_red"-->
-            <!--app:corner="rightTop"-->
-            <!--app:labelBottomPadding="5.0dip"-->
-            <!--app:labelCenterPadding="0.0dip"-->
-            <!--app:labelTopPadding="10.0dip"-->
-            <!--app:primaryText="折扣"-->
-            <!--app:primaryTextSize="10.0sp"/>-->
+        <jp.shts.android.library.TriangleLabelView
+            style="@style/WrapWrap"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:backgroundColor="@color/common_red"
+            app:corner="rightTop"
+            app:labelBottomPadding="5.0dip"
+            app:labelCenterPadding="0.0dip"
+            app:labelTopPadding="10.0dip"
+            app:primaryText="折扣"
+            app:primaryTextSize="10.0sp"/>
     </RelativeLayout>
 
     <TextView
