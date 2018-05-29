@@ -20,6 +20,9 @@ import kotlinx.android.synthetic.main.fragment_category.*
 
 class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
 
+    private lateinit var topAdapter: TopCategoryAdapter
+    private lateinit var secondAdapter: SecondCategoryAdapter
+
     override fun injectComponent() {
         DaggerCategoryComponent.builder()
                 .activityComponent(activityComponent)
@@ -37,11 +40,12 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        loadData()
     }
 
     private fun initView() {
         mTopCategoryRv.layoutManager = LinearLayoutManager(activity)
-        val topAdapter = TopCategoryAdapter(activity)
+        topAdapter = TopCategoryAdapter(activity)
         mTopCategoryRv.adapter = topAdapter
         topAdapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener<Category> {
             override fun onItemClick(item: Category, position: Int) {
@@ -53,7 +57,7 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
         })
 
         mSecondCategoryRv.layoutManager = GridLayoutManager(activity, 3)
-        val secondAdapter = SecondCategoryAdapter(activity)
+        secondAdapter = SecondCategoryAdapter(activity)
         secondAdapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener<Category> {
             override fun onItemClick(item: Category, position: Int) {
                 TODO()
@@ -61,7 +65,18 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
         })
     }
 
-    override fun onGetCategoryResult(result: MutableList<Category>?) {
+    private fun loadData() {
+        mPresenter.getCategory(0)
+    }
 
+    override fun onGetCategoryResult(result: MutableList<Category>?) {
+        result?.let {
+            if (it[0].parentId == 0) {
+                topAdapter.setData(it)
+                mPresenter.getCategory(it[0].id)
+            } else {
+                secondAdapter.setData(it)
+            }
+        }
     }
 }

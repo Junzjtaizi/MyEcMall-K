@@ -3,6 +3,7 @@ package cn.nieking.myecmallk.ui.activity
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import cn.nieking.goodscenter.ui.fragment.CategoryFragment
 import cn.nieking.myecmallk.R
 import cn.nieking.myecmallk.ui.fragment.HomeFragment
 import cn.nieking.myecmallk.ui.fragment.MeFragment
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val mStack = Stack<Fragment>()
     private val mHomeFragment by lazy { HomeFragment() }
-    private val mCategoryFragment by lazy { HomeFragment() }
+    private val mCategoryFragment by lazy { CategoryFragment() }
     private val mCartFragment by lazy { HomeFragment() }
     private val mMsgFragment by lazy { HomeFragment() }
     private val mMeFragment by lazy { MeFragment() }

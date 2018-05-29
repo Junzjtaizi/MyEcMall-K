@@ -25,6 +25,7 @@ android {
 dependencies {
     api project(':Provider')
     api project(':MessageCenter')
+    api project(':GoodsCenter')
     if (isUserModule.toBoolean()) {
         api project(':UserCenter')
     }
