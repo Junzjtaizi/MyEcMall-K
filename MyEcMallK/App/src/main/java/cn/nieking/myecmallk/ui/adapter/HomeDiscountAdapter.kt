@@ -19,6 +19,7 @@ class HomeDiscountAdapter(context: Context) : BaseRecyclerViewAdapter<String, Ho
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
         GlideUtils.loadUrlImage(mContext, dataList[position], holder.itemView.mGoodsIconIv)
         holder.itemView.mDiscountAfterTv.text = "￥100.00"
         holder.itemView.mDiscountBeforeTv.text = "￥123.00"
