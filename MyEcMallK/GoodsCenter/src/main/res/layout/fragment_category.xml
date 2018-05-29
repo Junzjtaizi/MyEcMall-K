@@ -47,7 +47,7 @@
                     style="@style/commonRecyclerView"
                     android:layout_marginTop="@dimen/common_margin_small"
                     android:background="@drawable/border_all"
-                    android:paddingLeft="12dp"
+                    android:paddingStart="12dp"
                     android:paddingTop="@dimen/common_padding_small" />
             </com.kennyc.view.MultiStateView>
 

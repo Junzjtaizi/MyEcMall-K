@@ -1,16 +1,20 @@
 package cn.nieking.baselibrary.ext
 
+import android.graphics.drawable.AnimationDrawable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import cn.nieking.baselibrary.R
 import cn.nieking.baselibrary.data.protocol.BaseResp
 import cn.nieking.baselibrary.rx.BaseFunc
 import cn.nieking.baselibrary.rx.BaseFuncBoolean
 import cn.nieking.baselibrary.rx.BaseSubscriber
 import cn.nieking.baselibrary.utils.GlideUtils
 import cn.nieking.baselibrary.widgets.DefaultTextWatcher
+import com.kennyc.view.MultiStateView
 import com.trello.rxlifecycle.LifecycleProvider
+import org.jetbrains.anko.find
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -49,4 +53,15 @@ fun Button.enable(et: EditText, method: () -> Boolean) {
 
 fun ImageView.loadUrl(url: String) {
     GlideUtils.loadUrlImage(context, url, this)
+}
+
+fun MultiStateView.startLoading() {
+    viewState = MultiStateView.VIEW_STATE_LOADING
+    val loadingView = getView(MultiStateView.VIEW_STATE_LOADING)
+    val animBackground = loadingView!!.find<View>(R.id.loading_anim_view).background
+    (animBackground as AnimationDrawable).start()
+}
+
+fun View.setVisible(visiable: Boolean) {
+    visibility = if (visiable) View.VISIBLE else View.GONE
 }
