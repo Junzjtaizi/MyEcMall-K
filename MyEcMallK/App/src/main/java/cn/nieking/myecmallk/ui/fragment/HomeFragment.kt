@@ -5,8 +5,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.fragment.BaseFragment
 import cn.nieking.baselibrary.widgets.BannerImageLoader
+import cn.nieking.goodscenter.ui.activity.SearchGoodsActivity
 import cn.nieking.myecmallk.R
 import cn.nieking.myecmallk.common.*
 import cn.nieking.myecmallk.ui.adapter.HomeDiscountAdapter
@@ -15,6 +17,7 @@ import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import kotlinx.android.synthetic.main.fragment_home.*
 import me.crosswall.lib.coverflow.CoverFlow
+import org.jetbrains.anko.startActivity
 
 class HomeFragment : BaseFragment() {
 
@@ -29,6 +32,8 @@ class HomeFragment : BaseFragment() {
         initNews()
         initDiscount()
         initTopic()
+
+        mSearchEt.onClick { startActivity<SearchGoodsActivity>() }
     }
 
     private fun initBanner() {

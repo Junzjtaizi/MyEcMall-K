@@ -16,7 +16,7 @@ abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), BaseView 
 
     @Inject
     lateinit var mPresenter: T
-    lateinit var activityComponent: ActivityComponent
+    lateinit var mActivityComponent: ActivityComponent
 
     lateinit var mLoadingDialog: ProgressLoading
 
@@ -29,7 +29,7 @@ abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), BaseView 
     }
 
     private fun initActivityInjection() {
-        activityComponent = DaggerActivityComponent.builder()
+        mActivityComponent = DaggerActivityComponent.builder()
                 .appComponent((application as BaseApplication).appComponent)
                 .activityModule(ActivityModule(this))
                 .lifecycleProviderModule(LifecycleProviderModule(this))

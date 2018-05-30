@@ -1,0 +1,15 @@
+package cn.nieking.goodscenter.injection.component
+
+import cn.nieking.baselibrary.injection.PerComponentScope
+import cn.nieking.baselibrary.injection.component.ActivityComponent
+import cn.nieking.goodscenter.injection.module.GoodsModule
+import cn.nieking.goodscenter.ui.activity.GoodsActivity
+import dagger.Component
+
+@PerComponentScope
+@Component(dependencies = arrayOf(ActivityComponent::class),
+        modules = arrayOf(GoodsModule::class))
+interface GoodsComponent {
+
+    fun inject(activity: GoodsActivity)
+}

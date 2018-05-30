@@ -63,10 +63,10 @@ object YuanFenConverter {
             }
             result.reverse().append(".").append(amString.substring(amString.length - 2))
         }
-        if (flag == 1) {
-            return "-" + result.toString()
+        return if (flag == 1) {
+            "-" + result.toString()
         } else {
-            return result.toString()
+            result.toString()
         }
     }
 
@@ -110,14 +110,11 @@ object YuanFenConverter {
         val index = currency.indexOf(".")
         val length = currency.length
         var amLong: Long? = 0L
-        if (index == -1) {
-            amLong = java.lang.Long.valueOf(currency + "00")
-        } else if (length - index >= 3) {
-            amLong = java.lang.Long.valueOf(currency.substring(0, index + 3).replace(".", ""))
-        } else if (length - index == 2) {
-            amLong = java.lang.Long.valueOf(currency.substring(0, index + 2).replace(".", "") + 0)
-        } else {
-            amLong = java.lang.Long.valueOf(currency.substring(0, index + 1).replace(".", "") + "00")
+        amLong = when {
+            index == -1 -> java.lang.Long.valueOf(currency + "00")
+            length - index >= 3 -> java.lang.Long.valueOf(currency.substring(0, index + 3).replace(".", ""))
+            length - index == 2 -> java.lang.Long.valueOf(currency.substring(0, index + 2).replace(".", "") + 0)
+            else -> java.lang.Long.valueOf(currency.substring(0, index + 1).replace(".", "") + "00")
         }
         return amLong!!.toString()
     }
@@ -125,7 +122,7 @@ object YuanFenConverter {
     /*
         分 转换为 元，带单位
      */
-    fun changeF2YWithUnit(amount:Long):String{
+    fun changeF2YWithUnit(amount: Long): String {
         return "¥${changeF2Y(amount)}"
     }
 }

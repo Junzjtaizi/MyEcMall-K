@@ -1,6 +1,5 @@
 package cn.nieking.goodscenter.ui.fragment
 
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -12,16 +11,18 @@ import cn.nieking.baselibrary.ext.startLoading
 import cn.nieking.baselibrary.ui.adapter.BaseRecyclerViewAdapter
 import cn.nieking.baselibrary.ui.fragment.BaseMvpFragment
 import cn.nieking.goodscenter.R
+import cn.nieking.goodscenter.common.GoodsConstant
 import cn.nieking.goodscenter.data.protocol.Category
 import cn.nieking.goodscenter.injection.component.DaggerCategoryComponent
 import cn.nieking.goodscenter.injection.module.CategoryModule
 import cn.nieking.goodscenter.presenter.CategoryPresenter
 import cn.nieking.goodscenter.presenter.view.CategoryView
+import cn.nieking.goodscenter.ui.activity.GoodsActivity
 import cn.nieking.goodscenter.ui.adapter.SecondCategoryAdapter
 import cn.nieking.goodscenter.ui.adapter.TopCategoryAdapter
 import com.kennyc.view.MultiStateView
 import kotlinx.android.synthetic.main.fragment_category.*
-import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
 
@@ -67,7 +68,7 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
         mSecondCategoryRv.adapter = secondAdapter
         secondAdapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener<Category> {
             override fun onItemClick(item: Category, position: Int) {
-                TODO()
+                startActivity<GoodsActivity>(GoodsConstant.KEY_CATEGORY_ID to item.id)
             }
         })
     }

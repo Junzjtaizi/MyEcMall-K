@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/MatchMatch.Vertical">
+    style="@style/MatchMatch.Vertical">
 
     <LinearLayout
         style="@style/SearchHeaderStyle"
@@ -11,18 +11,18 @@
             style="@style/SearchHeaderEtStyle"
             android:cursorVisible="false"
             android:editable="false"
-            android:hint="搜索商品/品类"/>
+            android:hint="搜索商品/品类" />
 
         <ImageView
             android:id="@+id/mScanIv"
             style="@style/WrapWrap"
-            android:src="@drawable/icon_scan"/>
+            android:src="@drawable/icon_scan" />
     </LinearLayout>
 
     <com.youth.banner.Banner
         android:id="@+id/mHomeBanner"
         android:layout_width="match_parent"
-        android:layout_height="150dp"/>
+        android:layout_height="150dp" />
 
     <cn.nieking.messagecenter.widgets.NewsFlipperView
         android:id="@+id/mNewsFlipperView"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="@dimen/common_margin_small"
         android:layout_marginLeft="@dimen/common_margin_middle"
         android:layout_marginRight="@dimen/common_margin_middle"
-        android:layout_marginTop="@dimen/common_margin_small"/>
+        android:layout_marginTop="@dimen/common_margin_small" />
 
     <TextView
         style="@style/MatchWrap"
@@ -43,7 +43,7 @@
         android:text="火爆进行中"
         android:textColor="@color/text_light_dark"
         android:textSize="@dimen/text_small_size"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mHomeDiscountRv"
@@ -52,7 +52,7 @@
         android:background="@color/common_white"
         android:paddingBottom="@dimen/common_padding_small"
         android:paddingLeft="@dimen/common_padding"
-        android:paddingRight="@dimen/common_padding"/>
+        android:paddingRight="@dimen/common_padding" />
 
     <me.crosswall.lib.coverflow.core.PagerContainer
         android:id="@+id/mTopicContainer"
@@ -64,6 +64,6 @@
             android:layout_width="200.0dip"
             android:layout_height="160.0dip"
             android:layout_gravity="center"
-            android:overScrollMode="never"/>
+            android:overScrollMode="never" />
     </me.crosswall.lib.coverflow.core.PagerContainer>
 </LinearLayout>

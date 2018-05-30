@@ -16,7 +16,7 @@ class ResetPwdActivity : BaseMvpActivity<ResetPwdPresenter>(), ResetPwdView {
 
     override fun injectComponent() {
         DaggerUserComponent.builder()
-                .activityComponent(activityComponent)
+                .activityComponent(mActivityComponent)
                 .userModule(UserModule())
                 .build()
                 .inject(this)

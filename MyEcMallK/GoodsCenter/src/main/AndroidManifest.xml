@@ -1,2 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.nieking.goodscenter"/>
+          package="cn.nieking.goodscenter">
+
+    <application>
+        <activity android:name=".ui.activity.GoodsActivity" />
+        <activity android:name=".ui.activity.SearchGoodsActivity" />
+    </application>
+</manifest>
