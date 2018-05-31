@@ -53,24 +53,19 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
         mTopCategoryRv.layoutManager = LinearLayoutManager(activity)
         topAdapter = TopCategoryAdapter(activity)
         mTopCategoryRv.adapter = topAdapter
-        topAdapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener<Category> {
-            override fun onItemClick(item: Category, position: Int) {
-                for (category in topAdapter.dataList) {
-                    category.isSelected = item.id == category.id
-                }
-                topAdapter.notifyDataSetChanged()
-                loadData(item.id)
+        topAdapter.onItemClick { item, _ ->
+            for (category in topAdapter.dataList) {
+                category.isSelected = item.id == category.id
             }
-        })
+            topAdapter.notifyDataSetChanged()
+            loadData(item.id)
+        }
 
         mSecondCategoryRv.layoutManager = GridLayoutManager(activity, 3)
         secondAdapter = SecondCategoryAdapter(activity)
         mSecondCategoryRv.adapter = secondAdapter
-        secondAdapter.setOnItemClickListener(object : BaseRecyclerViewAdapter.OnItemClickListener<Category> {
-            override fun onItemClick(item: Category, position: Int) {
-                startActivity<GoodsActivity>(GoodsConstant.KEY_CATEGORY_ID to item.id)
-            }
-        })
+        secondAdapter.onItemClick { item, _ ->
+            startActivity<GoodsActivity>(GoodsConstant.KEY_CATEGORY_ID to item.id) }
     }
 
     private fun loadData(parentId: Int = 0) {

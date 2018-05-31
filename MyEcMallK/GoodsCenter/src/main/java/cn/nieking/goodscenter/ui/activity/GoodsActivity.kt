@@ -7,6 +7,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.goodscenter.R
+import cn.nieking.goodscenter.common.GoodsConstant
 import cn.nieking.goodscenter.data.protocol.Goods
 import cn.nieking.goodscenter.injection.component.DaggerGoodsComponent
 import cn.nieking.goodscenter.injection.module.GoodsModule
@@ -59,8 +60,13 @@ class GoodsActivity :
     }
 
     private fun loadData() {
-        mMultiStateView.viewState = MultiStateView.VIEW_STATE_LOADING
-        mPresenter.getGoodsList(intent.getIntExtra("categoryId", mCurrentPage), 1)
+        if (intent.getIntExtra(GoodsConstant.KEY_SEARCH_GOODS_TYPE, 0) != 0) {
+            mMultiStateView.viewState = MultiStateView.VIEW_STATE_LOADING
+            mPresenter.getGoodsListByKeyword(intent.getStringExtra(GoodsConstant.KEY_GOODS_KEYWORD), 1)
+        } else {
+            mMultiStateView.viewState = MultiStateView.VIEW_STATE_LOADING
+            mPresenter.getGoodsList(intent.getIntExtra(GoodsConstant.KEY_CATEGORY_ID, mCurrentPage), 1)
+        }
     }
 
     override fun onGetGoodsListResult(result: MutableList<Goods>?) {

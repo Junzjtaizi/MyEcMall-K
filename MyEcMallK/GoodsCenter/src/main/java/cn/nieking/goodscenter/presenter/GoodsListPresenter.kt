@@ -27,4 +27,19 @@ class GoodsListPresenter @Inject constructor() : BasePresenter<GoodsListView>() 
                     }
                 }, lifecycleProvider)
     }
+
+    fun getGoodsListByKeyword(keyword: String, pageNo: Int) {
+        if (!checkNetWork()) {
+            println("网络不可用！")
+            return
+        }
+        mView.showLoading()
+        goodsService
+                .getGoodsListByKeyword(keyword, pageNo)
+                .execute(object : BaseSubscriber<MutableList<Goods>?>(mView) {
+                    override fun onNext(t: MutableList<Goods>?) {
+                        mView.onGetGoodsListResult(t)
+                    }
+                }, lifecycleProvider)
+    }
 }

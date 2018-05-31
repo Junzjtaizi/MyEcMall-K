@@ -41,7 +41,15 @@ abstract class BaseRecyclerViewAdapter<T, VH : RecyclerView.ViewHolder>(var mCon
         fun onItemClick(item: T, position: Int)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener<T>) {
+    private fun setOnItemClickListener(listener: OnItemClickListener<T>) {
         this.mItemClickListener = listener
+    }
+
+    fun onItemClick(method: (item: T, position: Int) -> Unit) {
+        this.setOnItemClickListener(object : OnItemClickListener<T> {
+            override fun onItemClick(item: T, position: Int) {
+                method(item, position)
+            }
+        })
     }
 }

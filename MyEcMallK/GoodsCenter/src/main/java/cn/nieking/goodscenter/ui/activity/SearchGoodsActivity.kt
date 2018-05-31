@@ -19,6 +19,7 @@ import org.jetbrains.anko.toast
     关键字搜索商品页
  */
 class SearchGoodsActivity : BaseActivity(), View.OnClickListener {
+
     private lateinit var mAdapter: SearchHistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
