@@ -16,6 +16,7 @@ import cn.nieking.goodscenter.presenter.view.GoodsListView
 import cn.nieking.goodscenter.ui.adapter.GoodsAdapter
 import com.kennyc.view.MultiStateView
 import kotlinx.android.synthetic.main.activity_goods.*
+import org.jetbrains.anko.startActivity
 
 class GoodsActivity :
         BaseMvpActivity<GoodsListPresenter>(),
@@ -49,6 +50,9 @@ class GoodsActivity :
         mGoodsRv.layoutManager = GridLayoutManager(this, 2)
         mGoodsAdapter = GoodsAdapter(this)
         mGoodsRv.adapter = mGoodsAdapter
+        mGoodsAdapter.onItemClick { item, _ ->
+            startActivity<GoodsDetailActivity>(GoodsConstant.KEY_GOODS_ID to item.id)
+        }
     }
 
     private fun initRefreshLayout() {
