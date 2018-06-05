@@ -26,7 +26,7 @@ abstract class BaseMvpFragment<T : BasePresenter<*>> : BaseFragment(), BaseView 
 
     @Inject
     lateinit var mPresenter: T
-    lateinit var activityComponent: ActivityComponent
+    lateinit var mActivityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ abstract class BaseMvpFragment<T : BasePresenter<*>> : BaseFragment(), BaseView 
     abstract fun injectComponent()
 
     private fun initActivityInjection() {
-        activityComponent = DaggerActivityComponent.builder()
+        mActivityComponent = DaggerActivityComponent.builder()
                 .appComponent((activity.application as BaseApplication).appComponent)
                 .activityModule(ActivityModule(activity))
                 .lifecycleProviderModule(LifecycleProviderModule(this))

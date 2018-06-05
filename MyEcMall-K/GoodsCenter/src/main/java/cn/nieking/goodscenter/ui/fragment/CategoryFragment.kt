@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import cn.nieking.baselibrary.ext.setVisible
 import cn.nieking.baselibrary.ext.startLoading
-import cn.nieking.baselibrary.ui.adapter.BaseRecyclerViewAdapter
 import cn.nieking.baselibrary.ui.fragment.BaseMvpFragment
 import cn.nieking.goodscenter.R
 import cn.nieking.goodscenter.common.GoodsConstant
@@ -31,7 +30,7 @@ class CategoryFragment : BaseMvpFragment<CategoryPresenter>(), CategoryView {
 
     override fun injectComponent() {
         DaggerCategoryComponent.builder()
-                .activityComponent(activityComponent)
+                .activityComponent(mActivityComponent)
                 .categoryModule(CategoryModule())
                 .build()
                 .inject(this)

@@ -5,6 +5,7 @@ import android.view.View
 import cn.nieking.baselibrary.ext.enable
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
+import cn.nieking.provider.router.RouterPath
 import cn.nieking.usercenter.R
 import cn.nieking.usercenter.data.protocol.UserInfo
 import cn.nieking.usercenter.injection.component.DaggerUserComponent
@@ -12,10 +13,12 @@ import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.LoginPresenter
 import cn.nieking.usercenter.presenter.view.LoginView
 import cn.nieking.usercenter.utils.UserPrefsUtils
+import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
+@Route(path = RouterPath.UserCenter.PATH_LOGIN)
 class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClickListener {
 
     override fun injectComponent() {

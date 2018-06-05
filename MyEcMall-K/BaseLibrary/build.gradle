@@ -91,23 +91,26 @@ dependencies {
     // PagerContainer
     api 'com.github.crosswall:Android-Coverflow:release-v1.0.4'
 
-    //MultiStateView
+    // MultiStateView
     api "com.github.Kennyc1012:MultiStateView:$multi_state_view_version"
 
-    //上下拉刷新
+    // 上下拉刷新
     api 'cn.bingoogolapple:bga-refreshlayout:1.1.7@aar'
 
-    //Kotlin Bus
+    // Kotlin Bus
     api 'com.eightbitlab:rxbus:1.0.2'
 
-    //FlowLayout
+    // FlowLayout
     api 'com.zhy:flowlayout-lib:1.0.3'
 
-    //ARouter
+    // ARouter
     api "com.alibaba:arouter-api:$arouter_api_version"
 
-    //BadgeView
+    // BadgeView
     api 'q.rorbin:badgeview:1.1.2'
+
+    // NumberButton
+    api 'ren.qinc.numberbutton:numberbutton:0.0.1'
 
     api 'com.android.support:multidex:1.0.3'
 }

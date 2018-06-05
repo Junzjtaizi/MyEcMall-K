@@ -4,6 +4,7 @@ import cn.nieking.baselibrary.injection.PerComponentScope
 import cn.nieking.baselibrary.injection.component.ActivityComponent
 import cn.nieking.goodscenter.injection.module.GoodsModule
 import cn.nieking.goodscenter.ui.activity.GoodsActivity
+import cn.nieking.goodscenter.ui.fragment.GoodsDetailTabOneFragment
 import dagger.Component
 
 @PerComponentScope
@@ -12,4 +13,5 @@ import dagger.Component
 interface GoodsComponent {
 
     fun inject(activity: GoodsActivity)
+    fun inject(fragment: GoodsDetailTabOneFragment)
 }
