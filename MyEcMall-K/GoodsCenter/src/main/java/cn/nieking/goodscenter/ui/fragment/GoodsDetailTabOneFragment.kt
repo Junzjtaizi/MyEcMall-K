@@ -15,8 +15,10 @@ import cn.nieking.baselibrary.widgets.BannerImageLoader
 import cn.nieking.goodscenter.R
 import cn.nieking.goodscenter.common.GoodsConstant
 import cn.nieking.goodscenter.data.protocol.Goods
+import cn.nieking.goodscenter.event.AddCartEvent
 import cn.nieking.goodscenter.event.GoodsDetailImageEvent
 import cn.nieking.goodscenter.event.SkuChangedEvent
+import cn.nieking.goodscenter.event.UpdateCartSizeEvent
 import cn.nieking.goodscenter.injection.component.DaggerGoodsComponent
 import cn.nieking.goodscenter.injection.module.GoodsModule
 import cn.nieking.goodscenter.presenter.GoodsDetailPresenter
@@ -28,12 +30,14 @@ import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import kotlinx.android.synthetic.main.fragment_goods_detail_tab_one.*
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.toast
 
 class GoodsDetailTabOneFragment : BaseMvpFragment<GoodsDetailPresenter>(), GoodsDetailView {
 
     private lateinit var mSkuPop: GoodsSkuPopView
     private lateinit var mAnimationStart: ScaleAnimation
     private lateinit var mAnimationEnd: ScaleAnimation
+    private var mCurGoods: Goods? = null
 
     override fun injectComponent() {
         DaggerGoodsComponent.builder()
@@ -85,19 +89,6 @@ class GoodsDetailTabOneFragment : BaseMvpFragment<GoodsDetailPresenter>(), Goods
         mPresenter.getGoodsDetail(id)
     }
 
-    override fun onGetGoodsDetailResult(result: Goods) {
-        mGoodsDetailBanner.setImages(result.goodsBanner.split(","))
-        mGoodsDetailBanner.start()
-
-        mGoodsDescTv.text = result.goodsDesc
-        mGoodsPriceTv.text = YuanFenConverter.changeF2YWithUnit(result.goodsDefaultPrice)
-        mSkuSelectedTv.text = result.goodsDefaultSku
-
-        Bus.send(GoodsDetailImageEvent(result.goodsDetailOne, result.goodsDetailTwo))
-
-        loadPopData(result)
-    }
-
     private fun loadPopData(result: Goods) {
         mSkuPop.setGoodsIcon(result.goodsDefaultIcon)
         mSkuPop.setGoodsCode(result.goodsCode)
@@ -111,11 +102,28 @@ class GoodsDetailTabOneFragment : BaseMvpFragment<GoodsDetailPresenter>(), Goods
                .subscribe {
                    mSkuSelectedTv.text = "${mSkuPop.getSelectSku()}${GoodsConstant.SKU_SEPARATOR}${mSkuPop.getSelectCount()}件"
                }.registerInBus(this)
+
+       Bus.observe<AddCartEvent>()
+               .subscribe {
+                   addCart()
+               }.registerInBus(this)
     }
 
     override fun onDestroy() {
         Bus.unregister(this)
         super.onDestroy()
+    }
+
+    private fun addCart() {
+        mCurGoods?.let {
+            mPresenter.addCart(
+                    it.id,
+                    it.goodsDesc,
+                    it.goodsDefaultIcon,
+                    it.goodsDefaultPrice,
+                    mSkuPop.getSelectCount(),
+                    mSkuPop.getSelectSku())
+        }
     }
 
     private fun initAnim() {
@@ -134,5 +142,24 @@ class GoodsDetailTabOneFragment : BaseMvpFragment<GoodsDetailPresenter>(), Goods
         )
         mAnimationEnd.duration = 300
         mAnimationEnd.fillAfter = true
+    }
+
+    override fun onGetGoodsDetailResult(result: Goods) {
+        mCurGoods = result
+
+        mGoodsDetailBanner.setImages(result.goodsBanner.split(","))
+        mGoodsDetailBanner.start()
+
+        mGoodsDescTv.text = result.goodsDesc
+        mGoodsPriceTv.text = YuanFenConverter.changeF2YWithUnit(result.goodsDefaultPrice)
+        mSkuSelectedTv.text = result.goodsDefaultSku
+
+        Bus.send(GoodsDetailImageEvent(result.goodsDetailOne, result.goodsDetailTwo))
+
+        loadPopData(result)
+    }
+
+    override fun onAddCartResult(result: Int) {
+        Bus.send(UpdateCartSizeEvent())
     }
 }
