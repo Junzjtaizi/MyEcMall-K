@@ -22,6 +22,9 @@ import cn.nieking.goodscenter.injection.module.CartModule
 import cn.nieking.goodscenter.presenter.CartListPresenter
 import cn.nieking.goodscenter.presenter.view.CartListView
 import cn.nieking.goodscenter.ui.adapter.CartGoodsAdapter
+import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.provider.router.RouterPath
+import com.alibaba.android.arouter.launcher.ARouter
 import com.eightbitlab.rxbus.Bus
 import com.eightbitlab.rxbus.registerInBus
 import com.kennyc.view.MultiStateView
@@ -155,7 +158,9 @@ class CartFragment : BaseMvpFragment<CartListPresenter>(), CartListView {
     }
 
     override fun onSubmitCartListResult(result: Int) {
-        toast("$result")
+        ARouter.getInstance().build(RouterPath.OrderCenter.PATH_ORDER_CONFIRM)
+                .withInt(ProviderConstant.KEY_ORDER_ID, result)
+                .navigation()
     }
 
     fun setBackVisible(isVisible: Boolean) {
