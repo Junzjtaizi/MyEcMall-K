@@ -80,9 +80,21 @@ class CartFragment : BaseMvpFragment<CartListPresenter>(), CartListView {
                     .filter { it.isSelected }
                     .mapTo(cartIdList) { it.id }
             if (cartIdList.size == 0) {
-                toast("请选择需要删除的数据")
+                toast("请选择需要删除的商品")
             } else {
                 mPresenter.deleteCartList(cartIdList)
+            }
+        }
+
+        mSettleAccountsBtn.onClick {
+            val cartGoodsList: MutableList<CartGoods> = arrayListOf()
+            mAdapter.dataList
+                    .filter { it.isSelected }
+                    .mapTo(cartGoodsList) { it }
+            if (cartGoodsList.size == 0) {
+                toast("请选择需要购买的商品")
+            } else {
+                mPresenter.submitCart(cartGoodsList, mTotalPrice)
             }
         }
     }
@@ -124,8 +136,11 @@ class CartFragment : BaseMvpFragment<CartListPresenter>(), CartListView {
     override fun onGetCartListResult(result: MutableList<CartGoods>?) {
         if (result != null && result.size > 0) {
             mAdapter.setData(result)
+            mHeaderBar.getRightView().setVisible(true)
+            mAllCheckedCb.isChecked = false
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_CONTENT
         } else {
+            mHeaderBar.getRightView().setVisible(false)
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_EMPTY
         }
         AppPrefsUtils.putInt(GoodsConstant.SP_CART_SIZE, result?.size?:0)
@@ -135,9 +150,15 @@ class CartFragment : BaseMvpFragment<CartListPresenter>(), CartListView {
 
     override fun onDeleteCartListResult(result: Boolean) {
         toast("删除成功")
+        refreshEditStatus()
         loadData()
     }
 
     override fun onSubmitCartListResult(result: Int) {
+        toast("$result")
+    }
+
+    fun setBackVisible(isVisible: Boolean) {
+        mHeaderBar.getLeftView().setVisible(isVisible)
     }
 }

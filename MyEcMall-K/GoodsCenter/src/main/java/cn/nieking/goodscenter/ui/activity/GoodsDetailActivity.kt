@@ -15,6 +15,7 @@ import cn.nieking.provider.common.afterLogin
 import com.eightbitlab.rxbus.Bus
 import com.eightbitlab.rxbus.registerInBus
 import kotlinx.android.synthetic.main.activity_goods_detail.*
+import org.jetbrains.anko.startActivity
 import q.rorbin.badgeview.QBadgeView
 
 class GoodsDetailActivity : BaseActivity() {
@@ -37,6 +38,14 @@ class GoodsDetailActivity : BaseActivity() {
 
         mAddCartBtn.onClick {
             afterLogin { Bus.send(AddCartEvent()) }
+        }
+
+        mEnterCartTv.onClick {
+            startActivity<CartActivity>()
+        }
+
+        mLeftIv.onClick {
+            finish()
         }
 
         mCartBadge = QBadgeView(this)

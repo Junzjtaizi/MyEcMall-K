@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_cart"
-        class="com.kotlin.goods.ui.fragment.CartFragment"
+        class="cn.nieking.goodscenter.ui.fragment.CartFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
