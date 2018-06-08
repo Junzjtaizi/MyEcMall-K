@@ -6,6 +6,7 @@ import android.os.Parcelable
 /*
    收货地址
  */
+
 data class ShipAddress(
         val id: Int,
         var shipUserName: String,
@@ -41,4 +42,5 @@ data class ShipAddress(
             return arrayOfNulls(size)
         }
     }
+
 }

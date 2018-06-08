@@ -16,6 +16,7 @@ import cn.nieking.myecmallk.common.*
 import cn.nieking.myecmallk.ui.activity.SettingActivity
 import cn.nieking.myecmallk.ui.adapter.HomeDiscountAdapter
 import cn.nieking.myecmallk.ui.adapter.TopicAdapter
+import cn.nieking.ordercenter.ui.activity.ShipAddressActivity
 import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.provider.common.isLogined
 import cn.nieking.usercenter.ui.activity.LoginActivity
@@ -48,6 +49,7 @@ class MeFragment : BaseFragment(), View.OnClickListener {
         mUserIconIv.onClick(this)
         mUserNameTv.onClick(this)
         mSettingTv.onClick(this)
+        mAddressTv.onClick(this)
     }
 
     private fun loadData() {
@@ -73,6 +75,7 @@ class MeFragment : BaseFragment(), View.OnClickListener {
                 }
             }
             R.id.mSettingTv -> { startActivity<SettingActivity>() }
+            R.id.mAddressTv -> { startActivity<ShipAddressActivity>() }
         }
     }
 }

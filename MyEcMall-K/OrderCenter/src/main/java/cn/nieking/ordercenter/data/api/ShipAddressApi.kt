@@ -1,13 +1,13 @@
-package com.kotlin.order.data.api
+package cn.nieking.ordercenter.data.api
 
-import retrofit2.http.POST
-import rx.Observable
-import com.kotlin.base.data.protocol.BaseResp
+import cn.nieking.baselibrary.data.protocol.BaseResp
 import cn.nieking.ordercenter.data.protocol.AddShipAddressReq
 import cn.nieking.ordercenter.data.protocol.DeleteShipAddressReq
 import cn.nieking.ordercenter.data.protocol.EditShipAddressReq
 import cn.nieking.ordercenter.data.protocol.ShipAddress
 import retrofit2.http.Body
+import retrofit2.http.POST
+import rx.Observable
 
 
 /*

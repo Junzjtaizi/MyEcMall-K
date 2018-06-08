@@ -9,6 +9,7 @@ import cn.nieking.baselibrary.injection.module.LifecycleProviderModule
 import cn.nieking.baselibrary.presenter.BasePresenter
 import cn.nieking.baselibrary.presenter.view.BaseView
 import cn.nieking.baselibrary.widgets.ProgressLoading
+import com.alibaba.android.arouter.launcher.ARouter
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
@@ -26,6 +27,7 @@ abstract class BaseMvpActivity<T : BasePresenter<*>> : BaseActivity(), BaseView 
         initActivityInjection()
         injectComponent()
         mLoadingDialog = ProgressLoading.create(this)
+        ARouter.getInstance().inject(this)
     }
 
     private fun initActivityInjection() {
