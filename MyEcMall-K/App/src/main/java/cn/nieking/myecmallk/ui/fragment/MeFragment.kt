@@ -1,31 +1,25 @@
 package cn.nieking.myecmallk.ui.fragment
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cn.nieking.baselibrary.common.BaseConstant
 import cn.nieking.baselibrary.ext.loadUrl
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.fragment.BaseFragment
 import cn.nieking.baselibrary.utils.AppPrefsUtils
-import cn.nieking.baselibrary.widgets.BannerImageLoader
 import cn.nieking.myecmallk.R
-import cn.nieking.myecmallk.common.*
 import cn.nieking.myecmallk.ui.activity.SettingActivity
-import cn.nieking.myecmallk.ui.adapter.HomeDiscountAdapter
-import cn.nieking.myecmallk.ui.adapter.TopicAdapter
+import cn.nieking.ordercenter.common.OrderConstant
+import cn.nieking.ordercenter.common.OrderStatus
+import cn.nieking.ordercenter.ui.activity.OrderActivity
 import cn.nieking.ordercenter.ui.activity.ShipAddressActivity
 import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.provider.common.afterLogin
 import cn.nieking.provider.common.isLogined
 import cn.nieking.usercenter.ui.activity.LoginActivity
 import cn.nieking.usercenter.ui.activity.UserInfoActivity
-import com.youth.banner.BannerConfig
-import com.youth.banner.Transformer
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_me.*
-import me.crosswall.lib.coverflow.CoverFlow
 import org.jetbrains.anko.startActivity
 
 class MeFragment : BaseFragment(), View.OnClickListener {
@@ -48,8 +42,14 @@ class MeFragment : BaseFragment(), View.OnClickListener {
     private fun initView() {
         mUserIconIv.onClick(this)
         mUserNameTv.onClick(this)
+
         mSettingTv.onClick(this)
         mAddressTv.onClick(this)
+
+        mAllOrderTv.onClick(this)
+        mWaitPayOrderTv.onClick(this)
+        mWaitConfirmOrderTv.onClick(this)
+        mCompleteOrderTv.onClick(this)
     }
 
     private fun loadData() {
@@ -68,14 +68,28 @@ class MeFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.mUserIconIv, R.id.mUserNameTv -> {
-                if (isLogined()) {
+                afterLogin {
                     startActivity<UserInfoActivity>()
-                } else {
-                    startActivity<LoginActivity>()
                 }
             }
-            R.id.mSettingTv -> { startActivity<SettingActivity>() }
-            R.id.mAddressTv -> { startActivity<ShipAddressActivity>() }
+            R.id.mSettingTv -> {
+                startActivity<SettingActivity>()
+            }
+            R.id.mAddressTv -> {
+                startActivity<ShipAddressActivity>()
+            }
+            R.id.mAllOrderTv -> {
+                afterLogin { startActivity<OrderActivity>() }
+            }
+            R.id.mWaitPayOrderTv -> {
+                startActivity<OrderActivity>(OrderConstant.KEY_ORDER_STATUS to OrderStatus.ORDER_WAIT_PAY)
+            }
+            R.id.mWaitConfirmOrderTv -> {
+                startActivity<OrderActivity>(OrderConstant.KEY_ORDER_STATUS to OrderStatus.ORDER_WAIT_CONFIRM)
+            }
+            R.id.mCompleteOrderTv -> {
+                startActivity<OrderActivity>(OrderConstant.KEY_ORDER_STATUS to OrderStatus.ORDER_COMPLETED)
+            }
         }
     }
 }

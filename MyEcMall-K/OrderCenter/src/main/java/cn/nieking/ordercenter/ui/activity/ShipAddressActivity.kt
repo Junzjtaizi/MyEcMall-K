@@ -8,6 +8,7 @@ import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
 import cn.nieking.ordercenter.R
 import cn.nieking.ordercenter.common.OrderConstant
 import cn.nieking.ordercenter.data.protocol.ShipAddress
+import cn.nieking.ordercenter.event.SelectAddressEvent
 import cn.nieking.ordercenter.injection.component.DaggerShipAddressComponent
 import cn.nieking.ordercenter.injection.module.ShipAddressModule
 import cn.nieking.ordercenter.presenter.ShipAddressPresenter
@@ -15,6 +16,7 @@ import cn.nieking.ordercenter.presenter.view.ShipAddressView
 import cn.nieking.ordercenter.ui.adapter.ShipAddressAdapter
 import com.bigkoo.alertview.AlertView
 import com.bigkoo.alertview.OnItemClickListener
+import com.eightbitlab.rxbus.Bus
 import com.kennyc.view.MultiStateView
 import kotlinx.android.synthetic.main.activity_address.*
 import org.jetbrains.anko.startActivity
@@ -66,6 +68,11 @@ class ShipAddressActivity : BaseMvpActivity<ShipAddressPresenter>(), ShipAddress
 
         mAddAddressBtn.onClick {
             startActivity<ShipAddressEditActivity>()
+        }
+
+        mAdapter.onItemClick { item, _ ->
+            Bus.send(SelectAddressEvent(item))
+            finish()
         }
     }
 
