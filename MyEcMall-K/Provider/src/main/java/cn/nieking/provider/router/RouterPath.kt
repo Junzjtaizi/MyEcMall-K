@@ -13,4 +13,10 @@ object RouterPath {
             const val PATH_ORDER_CONFIRM = "/orderCenter/orderConfirmActivity"
         }
     }
+
+    class PaySDK {
+        companion object {
+            const val PATH_PAY = "/paySDK/cashRegisterActivity"
+        }
+    }
 }

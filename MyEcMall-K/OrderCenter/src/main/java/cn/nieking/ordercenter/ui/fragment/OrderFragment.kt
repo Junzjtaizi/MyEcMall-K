@@ -17,6 +17,8 @@ import cn.nieking.ordercenter.presenter.view.OrderListView
 import cn.nieking.ordercenter.ui.activity.OrderDetailActivity
 import cn.nieking.ordercenter.ui.adapter.OrderAdapter
 import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.provider.router.RouterPath
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.alertview.AlertView
 import com.bigkoo.alertview.OnItemClickListener
 import com.kennyc.view.MultiStateView
@@ -26,7 +28,7 @@ import org.jetbrains.anko.startActivity
 
 class OrderFragment : BaseMvpFragment<OrderListPresenter>(), OrderListView {
 
-    private lateinit var mAdatper: OrderAdapter
+    private lateinit var mAdapter: OrderAdapter
 
     override fun injectComponent() {
         DaggerOrderComponent.builder()
@@ -44,19 +46,26 @@ class OrderFragment : BaseMvpFragment<OrderListPresenter>(), OrderListView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+    }
+
+    override fun onStart() {
+        super.onStart()
         loadData()
     }
 
     private fun initView() {
         mOrderRv.layoutManager = LinearLayoutManager(activity)
-        mAdatper = OrderAdapter(activity)
-        mOrderRv.adapter = mAdatper
+        mAdapter = OrderAdapter(activity)
+        mOrderRv.adapter = mAdapter
 
-        mAdatper.listener = object : OrderAdapter.OnOptClickListener {
+        mAdapter.listener = object : OrderAdapter.OnOptClickListener {
             override fun onOptClick(optType: Int, order: Order) {
                 when (optType) {
                     OrderConstant.OPT_ORDER_PAY -> {
-
+                        ARouter.getInstance().build(RouterPath.PaySDK.PATH_PAY)
+                                .withInt(ProviderConstant.KEY_ORDER_ID, order.id)
+                                .withLong(ProviderConstant.KEY_ORDER_PRICE, order.totalPrice)
+                                .navigation()
                     }
                     OrderConstant.OPT_ORDER_CONFIRM -> {
                         mPresenter.confirmOrder(order.id)
@@ -68,7 +77,7 @@ class OrderFragment : BaseMvpFragment<OrderListPresenter>(), OrderListView {
             }
         }
 
-        mAdatper.onItemClick { item, _ ->
+        mAdapter.onItemClick { item, _ ->
             startActivity<OrderDetailActivity>(ProviderConstant.KEY_ORDER_ID to item.id)
         }
     }
@@ -96,7 +105,7 @@ class OrderFragment : BaseMvpFragment<OrderListPresenter>(), OrderListView {
 
     override fun onGetOrderListResult(result: MutableList<Order>?) {
         if (result != null && result.size > 0) {
-            mAdatper.setData(result)
+            mAdapter.setData(result)
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_CONTENT
         } else {
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_EMPTY
