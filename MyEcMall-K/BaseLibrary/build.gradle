@@ -113,4 +113,7 @@ dependencies {
     api 'ren.qinc.numberbutton:numberbutton:0.0.1'
 
     api 'com.android.support:multidex:1.0.3'
+
+    debugApi 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

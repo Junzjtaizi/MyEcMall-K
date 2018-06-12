@@ -61,6 +61,11 @@ class CartFragment : BaseMvpFragment<CartListPresenter>(), CartListView {
         loadData()
     }
 
+    override fun onDestroy() {
+        Bus.unregister(this)
+        super.onDestroy()
+    }
+
     private fun initView() {
         mCartGoodsRv.layoutManager = LinearLayoutManager(activity)
         mAdapter = CartGoodsAdapter(activity)

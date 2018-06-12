@@ -8,6 +8,7 @@ import cn.nieking.goodscenter.common.GoodsConstant
 import cn.nieking.goodscenter.event.UpdateCartSizeEvent
 import cn.nieking.goodscenter.ui.fragment.CartFragment
 import cn.nieking.goodscenter.ui.fragment.CategoryFragment
+import cn.nieking.messagecenter.ui.fragment.MessageFragment
 import cn.nieking.myecmallk.R
 import cn.nieking.myecmallk.ui.fragment.HomeFragment
 import cn.nieking.myecmallk.ui.fragment.MeFragment
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val mHomeFragment by lazy { HomeFragment() }
     private val mCategoryFragment by lazy { CategoryFragment() }
     private val mCartFragment by lazy { CartFragment() }
-    private val mMsgFragment by lazy { HomeFragment() }
+    private val mMsgFragment by lazy { MessageFragment() }
     private val mMeFragment by lazy { MeFragment() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

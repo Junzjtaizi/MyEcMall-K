@@ -17,7 +17,6 @@ import cn.nieking.ordercenter.ui.activity.ShipAddressActivity
 import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.provider.common.afterLogin
 import cn.nieking.provider.common.isLogined
-import cn.nieking.usercenter.ui.activity.LoginActivity
 import cn.nieking.usercenter.ui.activity.UserInfoActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 import org.jetbrains.anko.startActivity

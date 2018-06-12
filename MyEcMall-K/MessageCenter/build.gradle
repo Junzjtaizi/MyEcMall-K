@@ -1,11 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    generateStubs = true
+    arguments {
+        arg("moduleName", project.getName())
+    }
+}
 
 android {
     compileSdkVersion 27
-
-
 
     defaultConfig {
         minSdkVersion 21
@@ -13,8 +19,15 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
 
+        manifestPlaceholders = [
+            JPUSH_PKGNAME : "cn.nieking.myecmallk",
+            JPUSH_APPKEY : "896dc1a906e68bcf826731a8",
+            JPUSH_CHANNEL : "developer-default",
+        ]
     }
 
     buildTypes {
@@ -28,4 +41,18 @@ android {
 
 dependencies {
     api project(':Provider')
+
+    //Dagger2
+    api "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //ARouter
+    kapt "com.alibaba:arouter-compiler:$arouter_compiler_version"
+
+    api 'cn.jiguang.sdk:jpush:3.1.1'
+    api 'cn.jiguang.sdk:jcore:1.1.9'
+}
+
+repositories {
+    mavenCentral()
 }

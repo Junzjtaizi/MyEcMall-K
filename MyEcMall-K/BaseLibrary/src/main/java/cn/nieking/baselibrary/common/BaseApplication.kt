@@ -7,8 +7,9 @@ import cn.nieking.baselibrary.injection.component.AppComponent
 import cn.nieking.baselibrary.injection.component.DaggerAppComponent
 import cn.nieking.baselibrary.injection.module.AppModule
 import com.alibaba.android.arouter.launcher.ARouter
+import com.squareup.leakcanary.LeakCanary
 
-class BaseApplication : Application() {
+open class BaseApplication : Application() {
 
     lateinit var appComponent: AppComponent
 
@@ -18,6 +19,11 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
+        }
+        LeakCanary.install(this)
 
         initAppInjection()
         context = this
