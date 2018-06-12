@@ -41,6 +41,7 @@ android {
 
 dependencies {
     api project(':Provider')
+    api project(':OrderCenter')
 
     //Dagger2
     api "com.google.dagger:dagger:$dagger_version"

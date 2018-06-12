@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import cn.jpush.android.api.JPushInterface
+import cn.nieking.ordercenter.ui.activity.OrderDetailActivity
 import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.provider.router.RouterPath
 import com.alibaba.android.arouter.launcher.ARouter
+import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
 
@@ -15,7 +17,9 @@ import org.json.JSONObject
     自定义Push 接收器
  */
 class MessageReceiver:BroadcastReceiver() {
+
     val TAG = "MessageReceiver"
+
     override fun onReceive(context: Context, intent: Intent) {
 
         val bundle = intent.extras
@@ -33,10 +37,10 @@ class MessageReceiver:BroadcastReceiver() {
                 val extra = bundle.getString(JPushInterface.EXTRA_EXTRA)
                 val json = JSONObject(extra)
                 val orderId = json.getInt("orderId")
-                ARouter.getInstance().build(RouterPath.MessageCenter.PATH_MESSAGE_ORDER)
-                        .withInt(ProviderConstant.KEY_ORDER_ID,orderId)
-                        .navigation()
-
+//                ARouter.getInstance().build(RouterPath.MessageCenter.PATH_MESSAGE_ORDER)
+//                        .withInt(ProviderConstant.KEY_ORDER_ID,orderId)
+//                        .navigation()
+                context.startActivity<OrderDetailActivity>(ProviderConstant.KEY_ORDER_ID to orderId)
             }
             else -> Log.d(TAG, "Unhandled intent - " + intent.action)
         }

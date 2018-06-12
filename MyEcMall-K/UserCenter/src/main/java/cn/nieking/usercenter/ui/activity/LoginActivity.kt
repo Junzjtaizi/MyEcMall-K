@@ -5,7 +5,6 @@ import android.view.View
 import cn.nieking.baselibrary.ext.enable
 import cn.nieking.baselibrary.ext.onClick
 import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
-import cn.nieking.provider.PushProvider
 import cn.nieking.provider.router.RouterPath
 import cn.nieking.usercenter.R
 import cn.nieking.usercenter.data.protocol.UserInfo
@@ -14,7 +13,6 @@ import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.LoginPresenter
 import cn.nieking.usercenter.presenter.view.LoginView
 import cn.nieking.usercenter.utils.UserPrefsUtils
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
@@ -26,9 +24,9 @@ import org.jetbrains.anko.toast
 @Route(path = RouterPath.UserCenter.PATH_LOGIN)
 class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClickListener {
 
-    @Autowired(name = RouterPath.MessageCenter.PATH_MESSAGE_PUSH)
-    @JvmField
-    var mPushProvider: PushProvider? = null
+//    @Autowired(name = RouterPath.MessageCenter.PATH_MESSAGE_PUSH)
+//    @JvmField
+//    var mPushProvider: PushProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +74,9 @@ class LoginActivity : BaseMvpActivity<LoginPresenter>(), LoginView, View.OnClick
                 mPresenter.login(
                         mMobileEt.text.toString(),
                         mPwdEt.text.toString(),
-                        mPushProvider?.getPushId() ?: "")
+//                        mPushProvider?.getPushId() ?: ""
+                ""
+                )
             }
             R.id.mForgetPwdTv -> {
                 startActivity<ForgetPwdActivity>()
