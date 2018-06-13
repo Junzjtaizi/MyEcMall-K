@@ -1,6 +1,8 @@
 package cn.nieking.baselibrary.ext
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
+import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -64,4 +66,8 @@ fun MultiStateView.startLoading() {
 
 fun View.setVisible(visiable: Boolean) {
     visibility = if (visiable) View.VISIBLE else View.GONE
+}
+
+fun <T> T.snack(view: View, text: CharSequence) {
+    Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
 }

@@ -3,6 +3,7 @@ package cn.nieking.myecmallk.ui.activity
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import cn.nieking.baselibrary.common.AppManager
 import cn.nieking.baselibrary.utils.AppPrefsUtils
 import cn.nieking.goodscenter.common.GoodsConstant
 import cn.nieking.goodscenter.event.UpdateCartSizeEvent
@@ -12,10 +13,12 @@ import cn.nieking.messagecenter.ui.fragment.MessageFragment
 import cn.nieking.myecmallk.R
 import cn.nieking.myecmallk.ui.fragment.HomeFragment
 import cn.nieking.myecmallk.ui.fragment.MeFragment
+import cn.nieking.provider.event.MessageBadgeEvent
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.eightbitlab.rxbus.Bus
 import com.eightbitlab.rxbus.registerInBus
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -62,12 +65,17 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(position: Int) {}
             override fun onTabUnselected(position: Int) {}
         })
+        mBottomNavBar.checkMsgBadge(false)
     }
 
     private fun initObserve() {
         Bus.observe<UpdateCartSizeEvent>()
                 .subscribe {
                     loadCartSize()
+                }.registerInBus(this)
+        Bus.observe<MessageBadgeEvent>()
+                .subscribe {
+                    mBottomNavBar.checkMsgBadge(it.isVisible)
                 }.registerInBus(this)
     }
 
@@ -87,5 +95,17 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         Bus.unregister(this)
         super.onDestroy()
+    }
+
+    private var pressTime: Long = 0
+
+    override fun onBackPressed() {
+        val time = System.currentTimeMillis()
+        if (time - pressTime > 2000) {
+            toast("再按一次退出")
+            pressTime = time
+        } else {
+            AppManager.instance.exitApp(this)
+        }
     }
 }

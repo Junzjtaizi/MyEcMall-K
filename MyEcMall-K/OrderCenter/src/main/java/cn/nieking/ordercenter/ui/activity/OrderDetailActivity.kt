@@ -12,8 +12,11 @@ import cn.nieking.ordercenter.presenter.OrderDetailPresenter
 import cn.nieking.ordercenter.presenter.view.OrderDetailView
 import cn.nieking.ordercenter.ui.adapter.OrderGoodsAdapter
 import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.provider.router.RouterPath
+import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_order_detail.*
 
+@Route(path = RouterPath.MessageCenter.PATH_MESSAGE_ORDER)
 class OrderDetailActivity : BaseMvpActivity<OrderDetailPresenter>(), OrderDetailView {
 
     private lateinit var mAdapter: OrderGoodsAdapter

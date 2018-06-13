@@ -18,6 +18,7 @@ import com.youth.banner.Transformer
 import kotlinx.android.synthetic.main.fragment_home.*
 import me.crosswall.lib.coverflow.CoverFlow
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class HomeFragment : BaseFragment() {
 
@@ -28,12 +29,18 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         initBanner()
         initNews()
         initDiscount()
         initTopic()
 
         mSearchEt.onClick { startActivity<SearchGoodsActivity>() }
+    }
+
+    private fun initView() {
+        mSearchEt.onClick { startActivity<SearchGoodsActivity>() }
+        mScanIv.onClick { toast(R.string.coming_soon_tip) }
     }
 
     private fun initBanner() {

@@ -20,6 +20,7 @@ import cn.nieking.provider.common.isLogined
 import cn.nieking.usercenter.ui.activity.UserInfoActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MeFragment : BaseFragment(), View.OnClickListener {
 
@@ -42,6 +43,7 @@ class MeFragment : BaseFragment(), View.OnClickListener {
         mUserIconIv.onClick(this)
         mUserNameTv.onClick(this)
 
+        mShareTv.onClick(this)
         mSettingTv.onClick(this)
         mAddressTv.onClick(this)
 
@@ -75,7 +77,7 @@ class MeFragment : BaseFragment(), View.OnClickListener {
                 startActivity<SettingActivity>()
             }
             R.id.mAddressTv -> {
-                startActivity<ShipAddressActivity>()
+                afterLogin { startActivity<ShipAddressActivity>() }
             }
             R.id.mAllOrderTv -> {
                 afterLogin { startActivity<OrderActivity>() }
@@ -88,6 +90,9 @@ class MeFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.mCompleteOrderTv -> {
                 startActivity<OrderActivity>(OrderConstant.KEY_ORDER_STATUS to OrderStatus.ORDER_COMPLETED)
+            }
+            R.id.mShareTv -> {
+                toast(R.string.coming_soon_tip)
             }
         }
     }

@@ -1,16 +1,11 @@
 package cn.nieking.usercenter.ui.activity
 
-import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import cn.nieking.baselibrary.common.BaseConstant
 import cn.nieking.baselibrary.ext.onClick
-import cn.nieking.baselibrary.ui.activity.BaseMvpActivity
+import cn.nieking.baselibrary.ui.activity.BaseTakePhotoActivity
 import cn.nieking.baselibrary.utils.AppPrefsUtils
-import cn.nieking.baselibrary.utils.DateUtils
 import cn.nieking.baselibrary.utils.GlideUtils
 import cn.nieking.provider.common.ProviderConstant
 import cn.nieking.usercenter.R
@@ -20,23 +15,14 @@ import cn.nieking.usercenter.injection.module.UserModule
 import cn.nieking.usercenter.presenter.UserInfoPresenter
 import cn.nieking.usercenter.presenter.view.UserInfoView
 import cn.nieking.usercenter.utils.UserPrefsUtils
-import com.bigkoo.alertview.AlertView
-import com.bigkoo.alertview.OnItemClickListener
 import com.jph.takephoto.app.TakePhoto
-import com.jph.takephoto.app.TakePhotoImpl
-import com.jph.takephoto.compress.CompressConfig
 import com.jph.takephoto.model.TResult
 import com.qiniu.android.storage.UploadManager
-import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_user_info.*
 import org.jetbrains.anko.toast
-import java.io.File
 
-class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, TakePhoto.TakeResultListener {
+class UserInfoActivity : BaseTakePhotoActivity<UserInfoPresenter>(), UserInfoView, TakePhoto.TakeResultListener {
 
-    private lateinit var mTakePhoto: TakePhoto
-    private lateinit var mTempFile: File
-    private lateinit var mRxPermission: RxPermissions
     private var mLocalFileUrl: String? = null
     private var mRemoteFileUrl: String? = null
     private var mUserIcon: String? = null
@@ -59,9 +45,6 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info)
 
-        mTakePhoto = TakePhotoImpl(this, this)
-        mTakePhoto.onCreate(savedInstanceState)
-        mRxPermission = RxPermissions(this)
         initView()
         initData()
     }
@@ -103,63 +86,11 @@ class UserInfoActivity : BaseMvpActivity<UserInfoPresenter>(), UserInfoView, Tak
         }
     }
 
-    private fun showAlertView() {
-        AlertView("选择照片",
-                "",
-                "取消",
-                null,
-                arrayOf("拍照", "相册"),
-                this,
-                AlertView.Style.ActionSheet,
-                OnItemClickListener { _, position ->
-                    mTakePhoto.onEnableCompress(CompressConfig.ofDefaultConfig(), false)
-                    when (position) {
-                        0 -> {
-                            mRxPermission.request(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.CAMERA)
-                                    .subscribe { granted ->
-                                        if (granted) {
-                                            createTempFile()
-                                            mTakePhoto.onPickFromCapture(Uri.fromFile(mTempFile))
-                                        } else {
-                                            toast("未授权")
-                                        }
-                                    }
-                        }
-                        1 -> mTakePhoto.onPickFromGallery()
-                    }
-                }).show()
-    }
-
     override fun takeSuccess(result: TResult?) {
         Log.d("TakePhoto", result?.image?.originalPath)
         Log.d("TakePhoto", result?.image?.compressPath)
         mLocalFileUrl = result?.image?.compressPath
         mPresenter.getUploadToken()
-    }
-
-    override fun takeCancel() {
-
-    }
-
-    override fun takeFail(result: TResult?, msg: String?) {
-        Log.e("TakePhoto", msg)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        mTakePhoto.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun createTempFile() {
-        val tempFileName = "${DateUtils.curTime}.png"
-        if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            this.mTempFile = File(Environment.getExternalStorageDirectory(), tempFileName)
-            return
-        }
-        this.mTempFile = File(filesDir, tempFileName)
     }
 
     override fun onGetUploadTokenResult(result: String) {

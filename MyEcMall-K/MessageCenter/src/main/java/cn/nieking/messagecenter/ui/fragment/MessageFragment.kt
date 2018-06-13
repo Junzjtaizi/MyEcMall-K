@@ -14,6 +14,8 @@ import cn.nieking.messagecenter.injection.module.MessageModule
 import cn.nieking.messagecenter.presenter.MessagePresenter
 import cn.nieking.messagecenter.presenter.view.MessageView
 import cn.nieking.messagecenter.ui.adapter.MessageAdapter
+import cn.nieking.provider.event.MessageBadgeEvent
+import com.eightbitlab.rxbus.Bus
 import com.kennyc.view.MultiStateView
 import kotlinx.android.synthetic.main.fragment_message.*
 
@@ -62,6 +64,13 @@ class MessageFragment : BaseMvpFragment<MessagePresenter>(), MessageView {
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_CONTENT
         } else {
             mMultiStateView.viewState = MultiStateView.VIEW_STATE_EMPTY
+        }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            Bus.send(MessageBadgeEvent(false))
         }
     }
 }

@@ -7,8 +7,10 @@ import android.util.Log
 import cn.jpush.android.api.JPushInterface
 import cn.nieking.ordercenter.ui.activity.OrderDetailActivity
 import cn.nieking.provider.common.ProviderConstant
+import cn.nieking.provider.event.MessageBadgeEvent
 import cn.nieking.provider.router.RouterPath
 import com.alibaba.android.arouter.launcher.ARouter
+import com.eightbitlab.rxbus.Bus
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
@@ -29,7 +31,7 @@ class MessageReceiver:BroadcastReceiver() {
             JPushInterface.ACTION_REGISTRATION_ID == intent.action -> Log.d(TAG, "JPush用户注册成功")
             JPushInterface.ACTION_MESSAGE_RECEIVED == intent.action -> {
                 Log.d(TAG, "接受到推送下来的自定义消息")
-//                Bus.send(MessageBadgeEvent(true))
+                Bus.send(MessageBadgeEvent(true))
             }
             JPushInterface.ACTION_NOTIFICATION_RECEIVED == intent.action -> Log.d(TAG, "接受到推送下来的通知")
             JPushInterface.ACTION_NOTIFICATION_OPENED == intent.action -> {
@@ -37,10 +39,9 @@ class MessageReceiver:BroadcastReceiver() {
                 val extra = bundle.getString(JPushInterface.EXTRA_EXTRA)
                 val json = JSONObject(extra)
                 val orderId = json.getInt("orderId")
-//                ARouter.getInstance().build(RouterPath.MessageCenter.PATH_MESSAGE_ORDER)
-//                        .withInt(ProviderConstant.KEY_ORDER_ID,orderId)
-//                        .navigation()
-                context.startActivity<OrderDetailActivity>(ProviderConstant.KEY_ORDER_ID to orderId)
+                ARouter.getInstance().build(RouterPath.MessageCenter.PATH_MESSAGE_ORDER)
+                        .withInt(ProviderConstant.KEY_ORDER_ID,orderId)
+                        .navigation()
             }
             else -> Log.d(TAG, "Unhandled intent - " + intent.action)
         }
