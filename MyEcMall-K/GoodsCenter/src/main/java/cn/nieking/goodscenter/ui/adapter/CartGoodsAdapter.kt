@@ -23,12 +23,8 @@ import kotlinx.android.synthetic.main.layout_cart_goods_item.view.*
  */
 class CartGoodsAdapter(context: Context) : BaseRecyclerViewAdapter<CartGoods, CartGoodsAdapter.ViewHolder>(context) {
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(mContext)
-                .inflate(R.layout.layout_cart_goods_item,
-                        parent,
-                        false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(mContext).inflate(R.layout.layout_cart_goods_item, parent, false)
         return ViewHolder(view)
     }
 

@@ -1,6 +1,5 @@
 package cn.nieking.baselibrary.ext
 
-import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.support.design.widget.Snackbar
 import android.view.View
